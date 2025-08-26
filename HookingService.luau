@@ -40,7 +40,7 @@ function HookingService:HookRemote(Remote, Function)
 
         if not checkcaller() and self == Remote then
             if getnamecallmethod() == "FireServer" or getnamecallmethod() == "InvokeServer" then
-                return Function(namecall, self, args)
+                return Function(namecall, self, args, ...)
             end
         end
 
