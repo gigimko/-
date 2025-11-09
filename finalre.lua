@@ -53,7 +53,7 @@ spawn(function()
 			if not table.find(execedAlready, scr.uniqueId) then 
           table.insert(execedAlready, scr.uniqueId)
           local decomped = string.gsub(scr.script, "\n", "")
-			exexCode(decomped)
+			execCode(decomped)
        
         end
 			
