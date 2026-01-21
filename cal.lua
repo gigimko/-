@@ -3,7 +3,6 @@ local KVD = workspace.RaisingCanes.Systems["easyPOS | CafePOS"]["Kitchen Visual 
 local currentOrderNum = nil
 local ordersDone = 0
 local Fire_Server
-local toby = false
 local Players = game:GetService('Players')
 local Local_Player = Players.LocalPlayer
 
@@ -18,45 +17,22 @@ for Index, Value in next, getgc(false) do
 end
 
 
-task.spawn(function()
-	while wait(3600) do
-		
-		local servers = {}
-    	local req = game:HttpGet("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true")
-    	local body = game.HttpService:JSONDecode(req)
-
-    	if body and body.data then
-    	    for i, v in next, body.data do
-    	        if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= JobId then
-    	            table.insert(servers, 1, v.id)
-    	        end
-    	    end
-    	end
-
-    	if #servers > 0 then
-			    queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/gigimko/-/refs/heads/main/cal.lua", true))
-			    wait(1)
-    	    game["Teleport Service"]:TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], game.Players.LocalPlayer)
-		  end
-	end
-end)
-
 local function claimOrderAndReturnDetails(orderNum)
 	if currentOrderNum then return end
 	currentOrderNum = orderNum
 	Fire_Server("Execute", "claim " .. orderNum)
 
 	local startTime = os.clock()
-	toby = true
+
 	repeat
     
     
-	
+
     	task.wait()
 	until os.clock() - startTime >= 5 or game.Players.LocalPlayer.PlayerGui:FindFirstChild("Claim")
-	toby = false
+
 	if not game.Players.LocalPlayer.PlayerGui:FindFirstChild("Claim") then return {} end
-	
+
 	local items = {}
 	for _, item in game.Players.LocalPlayer.PlayerGui.Claim.Main.ScrollingFrame:GetChildren() do
 		if item:IsA("Frame") and item:FindFirstChild("Quantity") then
