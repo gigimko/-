@@ -17,13 +17,6 @@ for Index, Value in next, getgc(false) do
     end
 end
 
-task.spawn(function()
-	while wait(10) do
-		if currentOrderNum ~= nil and not game.Players.LocalPlayer.PlayerGui:FindFirstChild("Claim") then
-			currentOrderNum = nil
-		end
-	end
-end)
 
 task.spawn(function()
 	while wait(3600) do
