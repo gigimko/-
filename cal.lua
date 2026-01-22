@@ -18,7 +18,7 @@ for Index, Value in next, getgc(false) do
 		break
 	end
 end
-queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/gigimko/-/refs/heads/main/cal.lua", true))
+--queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/gigimko/-/refs/heads/main/cal.lua", true))
 
 task.spawn(function()
 	while wait(3600) do
