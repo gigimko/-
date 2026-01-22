@@ -4,6 +4,7 @@ local currentOrderNum = nil
 local ordersDone = 0
 local Fire_Server
 local toby = false
+local kicked = false
 local Players = game:GetService('Players')
 local Local_Player = Players.LocalPlayer
 task.spawn(function()
@@ -18,10 +19,35 @@ for Index, Value in next, getgc(false) do
 		break
 	end
 end
+game:GetService("GuiService").ErrorMessageChanged:Connect(function()
+	if kicked then return end
+	kicked = true
+
+	local servers = {}
+		local req = game:HttpGet("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true")
+		local body = game.HttpService:JSONDecode(req)
+
+		if body and body.data then
+			for i, v in next, body.data do
+				if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.id ~= JobId then
+					table.insert(servers, 1, v.id)
+				end
+			end
+		end
+
+		if #servers > 0 then
+			wait(3)
+			game["Teleport Service"]:TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], game.Players.LocalPlayer)
+		else
+			warn('fallback!')
+			wait(3)
+			game["Teleport Service"]:TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+		end
+end)
 --queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/gigimko/-/refs/heads/main/cal.lua", true))
 
 task.spawn(function()
-	while wait(3600) do
+	while wait(2100) do
 
 		local servers = {}
 		local req = game:HttpGet("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true")
